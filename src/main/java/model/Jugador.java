@@ -1,17 +1,39 @@
 package model;
 
+import static model.SalaRecreativa.comprobacionPartida;
+import static utils.Utils.leeEntero;
+
 public class Jugador {
-    String nombre;
-    int identificador;
-    int creditosDisponibles = 0;
-    int partidasJugadas = 0;
+    static String nombre;
+    static int identificador;
+    static int creditosDisponibles = 0;
+    static int partidasJugadas = 0;
 
-    private int recargarCreditos(){
-        int creditosRecargados = 0;
-
-        System.out.println("Introduzca la cantidad de créditos a recargar: ");
-        creditosRecargados =
-
-        return creditosRecargados;
+    public static void  recargarCreditos() {
+        int creditosARecargar = 0;
+        int creditosActuales = creditosDisponibles;
+        System.out.println();
+       creditosARecargar = leeEntero("Introduzca la cantidad de créditos deseada a recargar:",
+               "La cantidad a recargar no es entera.");
+       creditosDisponibles = creditosActuales + creditosARecargar;
     }
+
+    public static void gastarCreditos() {
+        System.out.println("");
+    }
+
+    public static void enseñarInformacionJugador(){
+        System.out.println("Jugador: "+nombre);
+        System.out.println("Identificador: "+identificador);
+        System.out.println("Creditos: "+creditosDisponibles);
+        System.out.println("Partidas Jugadas: "+partidasJugadas);
+    }
+
+    public static void incrementarPartidasJugadas(){
+        if(comprobacionPartida()){
+            partidasJugadas++;
+        }
+    }
+
+
 }
