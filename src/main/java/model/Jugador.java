@@ -19,7 +19,7 @@ public class Jugador {
     }
 
     public static void gastarCreditos() {
-        System.out.println("");
+
     }
 
     public static void enseñarInformacionJugador(){

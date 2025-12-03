@@ -1,11 +1,13 @@
-import static utils.Utils.pideEnteroAcotado;
+import model.MaquinaArcade;
+
+import static utils.Utils.*;
 
 public class Principal {
     public static void main(String[]args){
         int opcion = 0;
 
         do{
-            System.out.println("\n|=================== MENU =====================|");
+            System.out.println("|=================== MENU =====================|");
             System.out.println("|1. Registrar nuevo jugador                    |");
             System.out.println("|2. Registrar nueva máquina arcade             |");
             System.out.println("|3. Recargar créditos a un jugador             |");
@@ -23,6 +25,32 @@ public class Principal {
             opcion = pideEnteroAcotado("Introduzca la opción deseada","Su opción no existe, " +
                     "por favor elija una opción válida",0,11);
 
+            switch(opcion){
+                case 1:
+
+                    break;
+
+                case 2:
+                    crearMaquinaArcade();
+            }
         }while(opcion != 0);
+    }
+
+    public static MaquinaArcade crearMaquinaArcade(){
+        System.out.println("======REGISTRO MÁQUINA ARCADE======");
+
+        String nombre =leerString("Introduzca el nombre de la máquina: ");
+
+        String genero =leerString("Introduzca el género de la máquina: (Shooter, Plataforma, Puzzle, etc...");
+
+        int precioPartida = leeEntero("Introduzca el precio por partida de la máquina: ","ERROR. VALOR NO VÁLIDO.");
+
+        boolean activo = leerBoolean("Está la máquina activa? Y/N");
+
+        MaquinaArcade nueva = new MaquinaArcade(nombre,genero,precioPartida,activo);
+
+        System.out.println("Máquina registrada con éxito.");
+
+        return nueva;
     }
 }

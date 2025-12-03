@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 
 public class Utils {
+
+    private static final Scanner sc = new Scanner(System.in);
     /**
      * Método que lee un número y se asegura de que sea entero, indicando mediante un mensaje si el usuario se ha equivocado al introducir un número que no sea entero.
      * @param mensaje Mensaje que dará contexto sobre el número deseado
@@ -11,7 +13,6 @@ public class Utils {
      * @return Número entero que ha superado el try-catch
      */
     public static int leeEntero( String mensaje, String mensajeError){
-        Scanner sc = new Scanner(System.in);
         int numero = 0;
         boolean noHayError = true;
         do {
@@ -76,6 +77,25 @@ public class Utils {
         System.out.println("Elementos del array:");
         for (int i = 0; i < array.length; i++) {
             System.out.println("[" + i + "] = " + array[i]);
+        }
+    }
+    public static String leerString(String mensaje) {
+            System.out.print(mensaje);
+            return sc.nextLine();
+    }
+
+    public static boolean leerBoolean(String mensaje) {
+        while (true) {
+            System.out.print(mensaje);
+            String entrada = sc.nextLine();
+
+            if (entrada.equals("Y")) {
+                return true;
+            } else if (entrada.equals("N")) {
+                return false;
+            } else {
+                System.out.println("ERROR: escribe 'Y' o 'N'.");
+            }
         }
     }
 }

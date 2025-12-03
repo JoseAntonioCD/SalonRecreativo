@@ -38,7 +38,64 @@ public class MaquinaArcade {
         }
     }
 
-    public static void jugarPartida(){
-        generarNumeroAleatorio(0,999);
+    public int jugarPartida() {
+        int puntuacion;
+        if (!activo) {
+            System.out.println("La máquina está desactivada por mantenimiento.");
+            return -1;
+        } else {
+            puntuacion = generarNumeroAleatorio(0, 9999);
+            partidasJugadas++;
+
+            if (partidasJugadas % 100 == 0) {
+                //activo == false;
+            }
+
+            actualizarRanking(puntuacion);
+        }
+        return puntuacion;
+    }
+    private void actualizarRanking(int puntuacion){
+        if(puntuacion >rankingTop3[0]){
+            rankingTop3[2] = rankingTop3[1];
+            rankingTop3[1] = rankingTop3[0];
+            rankingTop3[0] = puntuacion;
+        }else if(puntuacion > rankingTop3[1]){
+            rankingTop3[2] = rankingTop3[1];
+            rankingTop3[1] = puntuacion;
+        }else if(puntuacion>rankingTop3[2]){
+            rankingTop3[2] = puntuacion;
+        }
+    }
+
+    public static String getNombre() {
+        return nombre;
+    }
+
+    public static void setNombre(String nombre) {
+        MaquinaArcade.nombre = nombre;
+    }
+
+    public static String getGenero() {
+        return genero;
+    }
+
+    public static void setGenero(String genero) {
+        MaquinaArcade.genero = genero;
+    }
+
+    public static int getPrecioPartida() {
+        return precioPartida;
+    }
+
+    public static void setPrecioPartida(int precioPartida) {
+        MaquinaArcade.precioPartida = precioPartida;
+    }
+
+    public MaquinaArcade(String nombre, String genero, int precioPartida, boolean activo){
+        this.nombre = nombre;
+        this.genero = genero;
+        this.precioPartida = precioPartida;
+        this.activo = activo;
     }
 }
