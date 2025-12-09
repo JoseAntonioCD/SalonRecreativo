@@ -4,21 +4,21 @@ import static utils.Utils.generarNumeroAleatorio;
 import static utils.Utils.pideEnteroAcotado;
 
 public class MaquinaArcade {
-   static String nombre;
+    static String nombre;
     static String genero;
     static int precioPartida;
     static boolean activo = true;
     static int partidasJugadas = 0;
-    static int [] ranking = new int[10];
-    static int [] rankingTop3 = new int[3];
-    static String [] top3Jugadores = new String[3];
+    static int[] ranking = new int[10];
+    static int[] rankingTop3 = new int[3];
+    static String[] top3Jugadores = new String[3];
 
-    public static void manejoMaquina(){
+    public static void manejoMaquina() {
         int opcion = 0;
 
         opcion = pideEnteroAcotado("Introduzca 1 para activar la máquina, 2 para desactivarla y 0 para salir:",
-                "Debe introducir un número entre 0 y 2",0,2);
-        switch (opcion){
+                "Debe introducir un número entre 0 y 2", 0, 2);
+        switch (opcion) {
             case 1:
                 activo = true;
                 break;
@@ -30,15 +30,15 @@ public class MaquinaArcade {
         }
     }
 
-    public static void consultarEstadoMaquina(){
-        if(activo == true){
+    public static void consultarEstadoMaquina() {
+        if (activo == true) {
             System.out.println("La máquina está activa y funcional");
-        }else{
+        } else {
             System.out.println("La máquina está bajo mantenimiento");
         }
     }
 
-    public int jugarPartida() {
+    public static int jugarPartida() {
         int puntuacion;
         if (!activo) {
             System.out.println("La máquina está desactivada por mantenimiento.");
@@ -48,24 +48,29 @@ public class MaquinaArcade {
             partidasJugadas++;
 
             if (partidasJugadas % 100 == 0) {
-                //activo == false;
+                activo = false;
             }
-
-            actualizarRanking(puntuacion);
+            System.out.println(puntuacion);
+            actualizarTopRanking(puntuacion);
         }
         return puntuacion;
     }
-    private void actualizarRanking(int puntuacion){
-        if(puntuacion >rankingTop3[0]){
+
+    private static void actualizarTopRanking(int puntuacion) {
+        if (puntuacion > rankingTop3[0]) {
             rankingTop3[2] = rankingTop3[1];
             rankingTop3[1] = rankingTop3[0];
             rankingTop3[0] = puntuacion;
-        }else if(puntuacion > rankingTop3[1]){
+        } else if (puntuacion > rankingTop3[1]) {
             rankingTop3[2] = rankingTop3[1];
             rankingTop3[1] = puntuacion;
-        }else if(puntuacion>rankingTop3[2]){
+        } else if (puntuacion > rankingTop3[2]) {
             rankingTop3[2] = puntuacion;
         }
+    }
+
+    private void actualizarRanking(int puntuacion) {
+
     }
 
     public static String getNombre() {
@@ -92,7 +97,7 @@ public class MaquinaArcade {
         MaquinaArcade.precioPartida = precioPartida;
     }
 
-    public MaquinaArcade(String nombre, String genero, int precioPartida, boolean activo){
+    public MaquinaArcade(String nombre, String genero, int precioPartida, boolean activo) {
         this.nombre = nombre;
         this.genero = genero;
         this.precioPartida = precioPartida;
