@@ -1,98 +1,142 @@
 package model;
 
-import static model.Jugador.*;
-import static model.MaquinaArcade.*;
-import static utils.Utils.generarNumeroAleatorio;
+import static utils.Utils.*;
 
 public class SalaRecreativa {
-    private static Jugador jugadores[];
-    private static MaquinaArcade[] maquinas;
-    private static int contadorMaquinas;
-    private static int contadorJugadores;
 
-    public static int generarPuntuacion() {
-        int puntuacion = 0;
-        puntuacion = generarNumeroAleatorio(0, 999);
-        return puntuacion;
-    }
+    private static Jugador[] jugadores = null;
+    private static MaquinaArcade[] maquinas = null;
 
-    public static boolean comprobarCreditos(int creditos, int creditosNecesarios) {
-        boolean creditosSuficientes = false;
-        if (creditos >= creditosNecesarios) {
-            creditosSuficientes = true;
+
+    public static void agregarJugador(Jugador nuevo) {
+        if (jugadores == null) {
+            jugadores = new Jugador[1];
+            jugadores[0] = nuevo;
         } else {
-            System.out.println("Le hace falta " + (creditosNecesarios - creditos) + " créditos. Recargue sus créditos si desea continuar jugando");
+            Jugador[] temp = new Jugador[jugadores.length + 1];
+            for (int i = 0; i < jugadores.length; i++) {
+                temp[i] = jugadores[i];  // CORREGIDO
+            }
+            temp[jugadores.length] = nuevo;
+            jugadores = temp;
         }
-        return creditosSuficientes;
     }
 
-    public static void descontarCreditos() {
-        gastarCreditos("Precio de partida = " + precioPartida, "ERROR", precioPartida, creditosDisponibles);
+    public static void registrarJugadorPorUsuario() {
+        String nombre = leerString("Introduce el nombre del jugador:");
+        int id = generarNumeroAleatorio(1, 99999);
+
+        Jugador j = new Jugador(nombre, id);
+        agregarJugador(j);
+
+        System.out.println("Jugador agregado correctamente: " + nombre);
     }
 
-    public static void mensajePartida() {
-        System.out.println("SU PUNTUACION ES DE: " + generarPuntuacion());
+    public static void listarJugadores() {
+        if (jugadores == null) {
+            System.out.println("No hay jugadores registrados.");
+            return;
+        }
+
+        System.out.println("=== Jugadores registrados ===");
+        for (Jugador j : jugadores) {
+            System.out.println(j.getNombre() + " (ID: " + j.getIdentificador() + ")");
+        }
     }
 
-    public static boolean comprobacionPartida() {
-        boolean haJugado = false;
+    public static Jugador buscarJugadorPorId() {
+        int id = pideEnteroAcotado("Introduzca ID a buscar", "ID incorrecto", 0, 99999);
 
-        return haJugado;
+        if (jugadores == null || jugadores.length == 0) {
+            System.out.println("No hay jugadores registrados.");
+            return null;
+        }
+
+        for (Jugador j : jugadores) {
+            if (j.getIdentificador() == id) {
+                // Retornamos directamente el jugador encontrado
+                return j;
+            }
+        }
+
+        System.out.println("Jugador no encontrado.");
+        return null;
     }
 
-    public static void setJugadores(Jugador jugadores) {
-        SalaRecreativa.jugadores = new Jugador[]{jugadores};
+
+
+    public static void agregarMaquina(MaquinaArcade nueva) {
+        if (maquinas == null) {
+            maquinas = new MaquinaArcade[1];
+            maquinas[0] = nueva;
+        } else {
+            MaquinaArcade[] temp = new MaquinaArcade[maquinas.length + 1];
+            for (int i = 0; i < maquinas.length; i++) {
+                temp[i] = maquinas[i];
+            }
+            temp[maquinas.length] = nueva;
+            maquinas = temp;
+        }
+    }
+    public static MaquinaArcade crearMaquinaArcade() {
+        String nombre = leerString("Introduce el nombre de la máquina:");
+        String genero = leerString("Introduce el género de la máquina:");
+        int precio = pideEnteroAcotado("Introduce el precio de partida:", "Debe ser un número positivo", 1, 10000);
+
+        return new MaquinaArcade(nombre, genero, precio, true);
+    }
+    public static void listarMaquinas() {
+        if (maquinas == null) {
+            System.out.println("No hay máquinas registradas.");
+            return;
+        }
+
+        System.out.println("=== Máquinas disponibles ===");
+        for (MaquinaArcade m : maquinas) {
+            System.out.println(m.getNombre());
+        }
     }
 
-    public boolean annadirMaquina(MaquinaArcade nueva) {
+    public static void listarMaquinasActivas() {
+        if (maquinas == null) {
+            System.out.println("No hay máquinas registradas.");
+            return;
+        }
 
-        if (contadorMaquinas >= maquinas.length) {
-            System.out.println("No hay espacio para más máquinas.");
+        System.out.println("=== Máquinas activas ===");
+        for (MaquinaArcade m : maquinas) {
+            if (m.isActiva()) {
+                System.out.println(m.getNombre());
+            }
+        }
+    }
+
+
+    public static boolean gestionarPartida(Jugador jugador, MaquinaArcade maquina) {
+
+
+        if (!maquina.isActiva()) {
+            System.out.println("=== LA MÁQUINA ESTÁ EN MANTENIMIENTO ===");
             return false;
         }
 
-        maquinas[contadorMaquinas] = nueva;
-        contadorMaquinas++;
 
-        System.out.println("Máquina añadida al salón correctamente.");
+        if (!jugador.comprobacionCreditos(maquina.getPrecioPartida())) {
+            System.out.println("=== CRÉDITOS INSUFICIENTES ===");
+            return false;
+        }
+
+
+        jugador.gastarCreditos(maquina.getPrecioPartida());
+
+
+        int puntuacion = maquina.jugarPartida();
+        jugador.incrementarPartidasJugadas();
+
+
+        System.out.println("Puntuación obtenida por " + jugador.getNombre() + ": " + puntuacion);
+
         return true;
     }
-
-    // Método opcional para ver todas las máquinas
-    public static void listarMaquinas() {
-        System.out.println("=== Máquinas en el salón ===");
-        for (int i = 0; i < contadorMaquinas; i++) {
-            System.out.println((i + 1) + ". " + maquinas[i].getNombre());
-        }
-    }
-
-    public static void listarMaquinasActivas(){
-        if(activo){
-
-        }
-    }
-
-    public static void gestionarPartida() {
-        consultarEstadoMaquina();
-        if (activo) {
-            comprobacionCreditos(creditosDisponibles, precioPartida);
-            if (creditosSuficientes) {
-                gastarCreditos("", "", precioPartida, creditosDisponibles);
-                jugarPartida();
-            } else {
-                System.out.println("===CREDITOS INSUFICIENTES. RECARGUE CRÉDITOS===");
-            }
-        } else {
-            System.out.println("===MAQUINA EN MANTENIMIENTO===");
-        }
-    }
-
-
-    public static void listarJugadores() {
-        System.out.println("=== Jugadores registrados ===");
-        for (int i = 0; i < contadorJugadores; i++) {
-            System.out.println((i + 1) + ". " + jugadores[i].getNombre());
-        }
-    }
-
 }
+

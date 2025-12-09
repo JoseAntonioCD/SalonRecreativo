@@ -1,91 +1,63 @@
 package model;
 
-import static model.SalaRecreativa.comprobacionPartida;
 import static utils.Utils.leeEntero;
+import static utils.Utils.pideEnteroAcotado;
 
 public class Jugador {
-    static String nombre;
-    static int identificador;
-    static int creditosDisponibles = 0;
-    static int partidasJugadas = 0;
-    static boolean creditosSuficientes = false;
 
-    public static void recargarCreditos() {
-        int creditosARecargar = 0;
-        int creditosActuales = creditosDisponibles;
-        System.out.println();
-        creditosARecargar = leeEntero("Introduzca la cantidad de créditos deseada a recargar:",
-                "La cantidad a recargar no es entera.");
-        creditosDisponibles = creditosActuales + creditosARecargar;
+    private String nombre;
+    private int identificador;
+    private int creditosDisponibles = 0;
+    private int partidasJugadas = 0;
+
+    public Jugador(String nombre, int identificador) {
+        this.nombre = nombre;
+        this.identificador = identificador;
     }
 
-    public static boolean comprobacionCreditos(int creditosActuales, int creditosAGastar) {
-        if (creditosActuales < creditosAGastar) {
-            creditosSuficientes = false;
-            System.out.println("CRÉDITOS INSUFICIENTES. RECARGUE");
-        }
-        return creditosSuficientes;
-    }
 
-    public static void gastarCreditos(String msj, String msjError, int creditosAGastar, int creditosActuales) {
-        System.out.println(msj);
-        creditosAGastar = leeEntero("", "");
-        if (creditosDisponibles < creditosAGastar) {
-            System.out.println(msjError);
+    public static void recargarCreditosJugador() {
+        SalaRecreativa.listarJugadores();
+        int id = pideEnteroAcotado("Introduce ID del jugador:", "ID no válido", 0, 99999);
+
+        Jugador jugador = SalaRecreativa.buscarJugadorPorId();
+        if(jugador != null) {
+            recargarCreditosJugador();
         } else {
-            creditosDisponibles = creditosActuales - creditosAGastar;
+            System.out.println("Jugador no encontrado.");
         }
     }
 
-    public static void enseñarInformacionJugador() {
+    public boolean comprobacionCreditos(int precioPartida) {
+        return creditosDisponibles >= precioPartida;
+    }
+
+    public void gastarCreditos(int precioPartida) {
+        creditosDisponibles -= precioPartida;
+    }
+
+    public void incrementarPartidasJugadas() {
+        partidasJugadas++;
+    }
+
+
+    public void enseñarInformacionJugador() {
         System.out.println("Jugador: " + nombre);
-        System.out.println("Identificador: " + identificador);
-        System.out.println("Creditos: " + creditosDisponibles);
-        System.out.println("Partidas Jugadas: " + partidasJugadas);
+        System.out.println("ID: " + identificador);
+        System.out.println("Créditos disponibles: " + creditosDisponibles);
+        System.out.println("Partidas jugadas: " + partidasJugadas);
     }
 
-    public static void incrementarPartidasJugadas() {
-        if (comprobacionPartida()) {
-            partidasJugadas++;
-        }
-    }
 
-    public static String getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public static void setNombre(String nombre) {
-        Jugador.nombre = nombre;
-    }
-
-    public static int getIdentificador() {
+    public int getIdentificador() {
         return identificador;
     }
 
-    public static void setIdentificador(int identificador) {
-        Jugador.identificador = identificador;
-    }
-
-    public static int getCreditosDisponibles() {
+    public int getCreditosDisponibles() {
         return creditosDisponibles;
-    }
-
-    public static void setCreditosDisponibles(int creditosDisponibles) {
-        Jugador.creditosDisponibles = creditosDisponibles;
-    }
-
-    public static int getPartidasJugadas() {
-        return partidasJugadas;
-    }
-
-    public static void setPartidasJugadas(int partidasJugadas) {
-        Jugador.partidasJugadas = partidasJugadas;
-    }
-
-    public Jugador(String nombre, int identificador, int creditosDisponibles, int partidasJugadas) {
-        this.nombre = nombre;
-        this.creditosDisponibles = creditosDisponibles;
-        this.identificador = identificador;
-        this.partidasJugadas = partidasJugadas;
     }
 }

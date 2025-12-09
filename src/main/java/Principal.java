@@ -1,7 +1,8 @@
+import model.Jugador;
 import model.MaquinaArcade;
 import model.SalaRecreativa;
 
-import static model.Jugador.recargarCreditos;
+//import static model.Jugador.recargarCreditos;
 import static model.SalaRecreativa.*;
 import static utils.Utils.*;
 
@@ -29,53 +30,43 @@ public class Principal {
 
             switch (opcion) {
                 case 1:
-
+                    SalaRecreativa.registrarJugadorPorUsuario();
                     break;
 
                 case 2:
-                    crearMaquinaArcade();
-
+                  SalaRecreativa.agregarMaquina(crearMaquinaArcade());
+                    break;
                 case 3:
-                    recargarCreditos();
-
+                    Jugador.recargarCreditosJugador();
+                    break;
                 case 4:
-                    listarJugadores();
-
+                    SalaRecreativa.listarJugadores();
+                    break;
                 case 5:
-                    listarMaquinas();
-
+                    SalaRecreativa.listarMaquinas();
+                    break;
                 case 6:
-
+                    SalaRecreativa.listarMaquinasActivas();
+                    break;
                 case 7:
 
-                case 8:
-                    gestionarPartida();
+                    break;
 
+                case 8:
+                    // gestionarPartida();
+                    break;
                 case 9:
 
+                    break;
                 case 10:
 
+                    break;
                 case 11:
 
+                    break;
             }
         } while (opcion != 0);
     }
 
-    public static MaquinaArcade crearMaquinaArcade() {
-        System.out.println("======REGISTRO MÁQUINA ARCADE======");
 
-        String nombre = leerString("Introduzca el nombre de la máquina: ");
-
-        String genero = leerString("Introduzca el género de la máquina: (Shooter, Plataforma, Puzzle, etc...");
-
-        int precioPartida = leeEntero("Introduzca el precio por partida de la máquina: ", "ERROR. VALOR NO VÁLIDO.");
-
-        boolean activo = leerBoolean("Está la máquina activa? Y/N");
-
-        MaquinaArcade nueva = new MaquinaArcade(nombre, genero, precioPartida, activo);
-
-        System.out.println("Máquina registrada con éxito.");
-
-        return nueva;
-    }
 }
