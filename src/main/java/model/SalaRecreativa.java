@@ -44,16 +44,17 @@ public class SalaRecreativa {
      * Método que nos enseña todos los jugadores registrados, enseñándonos su nombre y su id
      */
     public static void listarJugadores() {
+        System.out.println("=== Jugadores registrados ===");
+
         if (jugadores == null || jugadores.length == 0) {
             System.out.println("No hay jugadores registrados.");
-            return;
-        }
-
-        System.out.println("=== Jugadores registrados ===");
-        for (Jugador j : jugadores) {
-            System.out.println(j.getNombre() + " (ID: " + j.getIdentificador() + ")");
+        } else {
+            for (Jugador j : jugadores) {
+                System.out.println(j.getNombre() + " (ID: " + j.getIdentificador() + ")");
+            }
         }
     }
+
 
     /**
      * Método que nos permite usar el id de un jugador para llamarlo desde la lista del array
@@ -61,9 +62,9 @@ public class SalaRecreativa {
      */
     public static Jugador buscarJugadorPorId() {
         if (jugadores == null || jugadores.length == 0) {
-            System.out.println("No hay jugadores registrados.");
-            return null;
+            throw new IllegalStateException("No hay jugadores registrados.");
         }
+
         listarJugadores();
 
         int id = pideEnteroAcotado("Introduce el ID del jugador:", "ID incorrecto", 0, 99999);
@@ -74,9 +75,9 @@ public class SalaRecreativa {
             }
         }
 
-        System.out.println("Jugador no encontrado.");
-        return null;
+        throw new IllegalArgumentException("Jugador con ID " + id + " no encontrado.");
     }
+
 
     /**
      * Método que nos localiza el jugador con más partidas jugadas a lo largo del array de jugadores
@@ -135,33 +136,42 @@ public class SalaRecreativa {
      * Método que lista todas las máquinas existentes, estén o no en mantenimiento
      */
     public static void listarMaquinas() {
+        System.out.println("=== Máquinas disponibles ===");
+
         if (maquinas == null || maquinas.length == 0) {
             System.out.println("No hay máquinas registradas.");
-            return;
-        }
-
-        System.out.println("=== Máquinas disponibles ===");
-        for (int i = 0; i < maquinas.length; i++) {
-            System.out.println((i + 1) + ". " + maquinas[i].getNombre() + (maquinas[i].isActiva() ? " (Activa)" : " (Mantenimiento)"));
+        } else {
+            for (int i = 0; i < maquinas.length; i++) {
+                System.out.println((i + 1) + ". " + maquinas[i].getNombre()
+                        + (maquinas[i].isActiva() ? " (Activa)" : " (Mantenimiento)"));
+            }
         }
     }
+
 
     /**
      * Método que enseña una lista con las máquinas existentes que están activas y no en mantenimiento
      */
     public static void listarMaquinasActivas() {
+        System.out.println("=== Máquinas activas ===");
+
         if (maquinas == null || maquinas.length == 0) {
             System.out.println("No hay máquinas registradas.");
-            return;
-        }
+        } else {
+            boolean hayActivas = false;
+            for (MaquinaArcade m : maquinas) {
+                if (m.isActiva()) {
+                    System.out.println(m.getNombre());
+                    hayActivas = true;
+                }
+            }
 
-        System.out.println("=== Máquinas activas ===");
-        for (MaquinaArcade m : maquinas) {
-            if (m.isActiva()) {
-                System.out.println(m.getNombre());
+            if (!hayActivas) {
+                System.out.println("No hay máquinas activas en este momento.");
             }
         }
     }
+
 
     /**
      * Método que nos devuelve la máquina con el mayor número de partidas jugadas dentro del array
@@ -220,27 +230,22 @@ public class SalaRecreativa {
     public static void gestionarPartida(Jugador jugador, MaquinaArcade maquina) {
         if (jugador == null) {
             System.out.println("Jugador no válido.");
-            return;
-        }
-
-        if (!maquina.isActiva()) {
+        } else if (!maquina.isActiva()) {
             System.out.println("=== MÁQUINA EN MANTENIMIENTO ===");
-            return;
-        }
-
-        if (!jugador.comprobacionCreditos(maquina.getPrecioPartida())) {
+        } else if (!jugador.comprobacionCreditos(maquina.getPrecioPartida())) {
             System.out.println("=== CRÉDITOS INSUFICIENTES ===");
-            return;
+        } else {
+            // Todo está correcto: se puede jugar
+            jugador.gastarCreditos(maquina.getPrecioPartida());
+
+            int puntuacion = maquina.jugarPartida(jugador);
+
+            jugador.incrementarPartidasJugadas();
+
+            System.out.println("Partida completada. Puntuación obtenida: " + puntuacion);
         }
-
-        jugador.gastarCreditos(maquina.getPrecioPartida());
-
-        int puntuacion = maquina.jugarPartida(jugador);
-
-        jugador.incrementarPartidasJugadas();
-
-        System.out.println("Partida completada. Puntuación obtenida: " + puntuacion);
     }
+
 
     /**
      * Método que genera una puntuación aleatoria de 0 a 9999
