@@ -66,8 +66,26 @@ public class SalaRecreativa {
         }
 
         listarJugadores();
+        int id;
+        boolean existe;
 
-        int id = pideEnteroAcotado("Introduce el ID del jugador:", "ID incorrecto", 0, 99999);
+        do {
+            id = pideEnteroAcotado("Introduce el ID del jugador:", "ID incorrecto", 0, 99999);
+
+            existe = false;
+
+            for (Jugador j : jugadores) {
+                if (j.getIdentificador() == id) {
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe) {
+                System.out.println("El ID no existe. Inténtalo de nuevo.");
+            }
+
+        } while (!existe);
 
         for (Jugador j : jugadores) {
             if (j.getIdentificador() == id) {
@@ -212,7 +230,7 @@ public class SalaRecreativa {
      */
     public static void jugarPartidaMenu() {
         Jugador jugador = buscarJugadorPorId();
-        if (jugador == null) return;
+        if (jugador == null);
 
         listarMaquinas();
         int idMaquina = pideEnteroAcotado("Seleccione la máquina (1.." + getMaquinas().length + "):", "Opción no válida", 1, getMaquinas().length);
