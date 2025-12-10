@@ -55,9 +55,9 @@ public class Principal {
                   SalaRecreativa.agregarMaquina(crearMaquinaArcade());
                     break;
                 case 3:
-                    Jugador jugador = SalaRecreativa.buscarJugadorPorId(); // Buscar la instancia
+                    Jugador jugador = SalaRecreativa.buscarJugadorPorId();
                     if (jugador != null) {
-                        jugador.recargarCreditos(); // Llamar sobre la instancia concreta
+                        jugador.recargarCreditos();
                     }
                     break;
 
