@@ -83,7 +83,7 @@ public class MaquinaArcade {
      * @param puntuacion La puntuación que el jugador a conseguido
      * @param nombreJugador El nombre del jugador que obtuvo esa calificación
      */
-    private  void actualizarTopRanking(int puntuacion, String nombreJugador) {
+    public void actualizarTopRanking(int puntuacion, String nombreJugador) {
         if (puntuacion > rankingTop3[0]) {
             rankingTop3[2] = rankingTop3[1];
             rankingTop3[1] = rankingTop3[0];

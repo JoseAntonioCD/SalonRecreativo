@@ -8,6 +8,24 @@ import static utils.Utils.*;
 
 public class Principal {
     public static void main(String[] args) {
+
+        Jugador j1 = new Jugador("Carlos",1294);
+        Jugador j2 = new Jugador("Ana",1943);
+        Jugador j3 = new Jugador("Julio",5436);
+
+        MaquinaArcade m1 = new MaquinaArcade("Pac-Man","Casual",5,true);
+        MaquinaArcade m2 = new MaquinaArcade("Street Fighter II","Lucha",10,true);
+        MaquinaArcade m3 = new MaquinaArcade("Forza Horizon","Carreras",10,true);
+
+        SalaRecreativa.agregarJugador(j1);
+        SalaRecreativa.agregarJugador(j2);
+        SalaRecreativa.agregarJugador(j3);
+
+        SalaRecreativa.agregarMaquina(m1);
+        SalaRecreativa.agregarMaquina(m2);
+        SalaRecreativa.agregarMaquina(m3);
+
+
         int opcion = 0;
         do {
             System.out.println("|====================== MENU ========================|" +
