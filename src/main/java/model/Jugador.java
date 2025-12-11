@@ -6,8 +6,8 @@ public class Jugador {
 
     private String nombre;
     private int identificador;
-    private int creditosDisponibles = 0;
-    private int partidasJugadas = 0;
+    private int creditosDisponibles ;
+    private int partidasJugadas ;
 
     public Jugador(String nombre, int identificador) {
         this.nombre = nombre;
@@ -38,7 +38,7 @@ public class Jugador {
 
     /**
      * Método que resta los créditos necesarios para jugar una partida de los créditos disponibles del jugador
-     * @param precioPartida El precio de la partida, tal y como está especificado en la máuqina
+     * @param precioPartida El precio de la partida, tal y como está especificado en la máquina
      */
     public void gastarCreditos(int precioPartida) {
         creditosDisponibles -= precioPartida;
@@ -54,7 +54,7 @@ public class Jugador {
     /**
      * Método que enseña toda la información de un usuario
      */
-    public void enseñarInformacionJugador() {
+    public void enseñarInformacionJugador(Jugador jugador) {
         System.out.println("Jugador: " + nombre);
         System.out.println("ID: " + identificador);
         System.out.println("Créditos disponibles: " + creditosDisponibles);

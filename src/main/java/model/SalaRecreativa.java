@@ -71,7 +71,6 @@ public class SalaRecreativa {
 
         do {
             id = pideEnteroAcotado("Introduce el ID del jugador:", "ID incorrecto", 0, 99999);
-
             existe = false;
 
             for (Jugador j : jugadores) {
@@ -80,7 +79,6 @@ public class SalaRecreativa {
                     break;
                 }
             }
-
             if (!existe) {
                 System.out.println("El ID no existe. Inténtalo de nuevo.");
             }

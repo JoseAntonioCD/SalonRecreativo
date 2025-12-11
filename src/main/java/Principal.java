@@ -89,7 +89,6 @@ public class Principal {
             }
         } while (opcion != 0);
     }
-
     /**
      * Método que muestra el ranking top 3 mediante un menú en el que elijes la máquina en concreto
      */
@@ -99,5 +98,4 @@ public class Principal {
         MaquinaArcade maquina = SalaRecreativa.getMaquinas()[idMaquina - 1];
         maquina.mostrarRanking();
     }
-
 }
